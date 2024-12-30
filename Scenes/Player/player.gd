@@ -15,9 +15,9 @@ func _ready() -> void:
 
 #funcoes para a state machine
 func _idle_ready():
-	anim.play("idle")
+	anim.animation = "idle"
 func _move_ready():
-	anim.play("run")
+	anim.animation = "run"
 
 #-----------------------------------
 #funcoes para a state machine
