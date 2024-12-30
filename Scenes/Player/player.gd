@@ -45,7 +45,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 
-
+#gabs 
 func _init_state_machine():
 	hsm = LimboHSM.new()
 	add_child(hsm)
