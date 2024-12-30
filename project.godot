@@ -11,23 +11,31 @@ config_version=5
 [application]
 
 config/name="ProjetoHK"
+run/main_scene="res://Scenes/Cenas/Teste.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
-SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/goutte.animated_shape_2d/plugin.cfg", "res://addons/scene_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/goutte.animated_shape_2d/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
 "res://Assets/": "yellow",
 "res://Assets/Player/Knight/": "red"
+}
+
+[input]
+
+attack={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
+]
 }
 
 [rendering]
