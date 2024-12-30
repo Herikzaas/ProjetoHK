@@ -22,3 +22,14 @@ SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/goutte.animated_shape_2d/plugin.cfg", "res://addons/scene_manager/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://Assets/": "yellow",
+"res://Assets/Player/Knight/": "red"
+}
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
