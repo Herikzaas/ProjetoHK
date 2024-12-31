@@ -59,6 +59,8 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
 		anim.scale.x = direction
+		$Area2D/CollisionShape2D.position.x = direction * 34
+		$CollisionShape2D.position.x = direction * -4
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
