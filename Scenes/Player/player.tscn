@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://dar8h4rmwlltd"]
+[gd_scene load_steps=39 format=3 uid="uid://dar8h4rmwlltd"]
 
 [ext_resource type="Texture2D" uid="uid://dgacj0uqee6ks" path="res://Assets/Player/Knight/_Attack.png" id="1_nejds"]
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_t0rrx"]
@@ -15,13 +15,13 @@ region = Rect2(0, 0, 120, 80)
 atlas = ExtResource("1_nejds")
 region = Rect2(120, 0, 120, 80)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ndlg"]
-atlas = ExtResource("1_nejds")
-region = Rect2(360, 0, 120, 80)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_h1lmc"]
 atlas = ExtResource("1_nejds")
 region = Rect2(240, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ndlg"]
+atlas = ExtResource("1_nejds")
+region = Rect2(360, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rq0gt"]
 atlas = ExtResource("3_mkaw8")
@@ -133,14 +133,14 @@ animations = [{
 "texture": SubResource("AtlasTexture_4ipfm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0ndlg")
+"texture": SubResource("AtlasTexture_h1lmc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_h1lmc")
+"texture": SubResource("AtlasTexture_0ndlg")
 }],
 "loop": false,
 "name": &"attack",
-"speed": 8.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -239,89 +239,30 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gcdah"]
-height = 46.0
+radius = 12.0
+height = 34.0
 
-[sub_resource type="Animation" id="Animation_kco2l"]
-resource_name = "idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("animation:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"idle"]
-}
-
-[sub_resource type="Animation" id="Animation_wk0xc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("animation:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"idle"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("animation:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_r6pii"]
-resource_name = "attack"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("animation:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_6x3by"]
-_data = {
-"RESET": SubResource("Animation_wk0xc"),
-"attack": SubResource("Animation_r6pii"),
-"idle": SubResource("Animation_kco2l")
-}
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0btah"]
+size = Vector2(48.5, 30)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_t0rrx")
 
 [node name="animation" type="AnimatedSprite2D" parent="." groups=["scene_manager_entity_nodes"]]
 sprite_frames = SubResource("SpriteFrames_uu3ma")
-animation = &"idle"
+animation = &"run"
 autoplay = "idle"
 metadata/entity_name = "A"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-5, 20)
+position = Vector2(-4, 23)
 shape = SubResource("CapsuleShape2D_gcdah")
 
-[node name="animacao" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_6x3by")
-}
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(34.25, 20)
+shape = SubResource("RectangleShape2D_0btah")
+debug_color = Color(0.747915, 0.408091, 0.571588, 0.42)
 
 [connection signal="animation_finished" from="animation" to="." method="_on_animation_animation_finished"]

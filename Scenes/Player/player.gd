@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@onready var anim = $animacao as Animatio
+@onready var anim = $animation as AnimatedSprite2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -16,10 +16,12 @@ func _ready() -> void:
 
 #funcoes para a state machine
 func _idle_ready():
-	anim.play("idle")
+	if not atacando:
+		anim.play("idle")
 
 func _move_ready():
-	anim.play("run")
+	if not atacando:
+		anim.play("run")
 
 func _attack_ready():
 	atacando = true
@@ -28,19 +30,23 @@ func _attack_ready():
 #-----------------------------------
 #funcoes para a state machine
 func _idle_physics_process(delta: float) :
-	if velocity != Vector2.ZERO and not atacando:
+	if velocity != Vector2.ZERO:
 		hsm.dispatch(&"move_started")
 
 func _move_physics_process(delta: float) :
 	move_and_slide()
-	if velocity == Vector2.ZERO :
+	if velocity == Vector2.ZERO:
 		hsm.dispatch(&"move_ended")
 
 func _attack_physics_process(delta: float):
-	if anim.animation_finished:
-		print('atack')
+	move_and_slide()
+	#gambiarra, esse == 3 `e quando a animacao acaba
+	if anim.frame == 3:
 		atacando = false
-		#hsm.dispatch(&"state_ended")
+	if atacando == false :
+		hsm.dispatch(&"state_ended")
+
+
 #func process
 func _physics_process(delta: float) -> void:
 
@@ -73,7 +79,6 @@ func _init_state_machine():
 	hsm.add_transition(idle_state, move_state, &"move_started")
 	hsm.add_transition(move_state, idle_state, &"move_ended")
 	hsm.add_transition(hsm.ANYSTATE, idle_state, &"state_ended")
-	#hsm.add_transition(hsm.ANYSTATE, idle_state, &"attack_ended")
 	hsm.add_transition(hsm.ANYSTATE, attack_state, &"attack_started")
 	
 	hsm.initial_state = idle_state
@@ -82,4 +87,5 @@ func _init_state_machine():
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("attack") :
+		atacando = true
 		hsm.dispatch(&"attack_started")
