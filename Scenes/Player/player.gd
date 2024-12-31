@@ -27,6 +27,13 @@ func _attack_ready():
 	atacando = true
 	anim.play("attack")
 
+func _jump_ready():
+	if not atacando and is_on_floor() :
+		pass
+
+func _fall_ready():
+	pass
+
 #-----------------------------------
 #funcoes para a state machine
 func _idle_physics_process(delta: float) :
@@ -46,6 +53,12 @@ func _attack_physics_process(delta: float):
 	if atacando == false :
 		hsm.dispatch(&"state_ended")
 
+func _jump_physics_process(delta: float):
+	velocity.y = JUMP_VELOCITY
+
+func _fall_physics_process(delta: float):
+	pass
+
 
 #func process
 func _physics_process(delta: float) -> void:
@@ -53,8 +66,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 		
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+
 	
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
@@ -72,16 +84,21 @@ func _init_state_machine():
 	var idle_state = LimboState.new().named("idle").call_on_enter(_idle_ready).call_on_update(_idle_physics_process)
 	var move_state = LimboState.new().named("move").call_on_enter(_move_ready).call_on_update(_move_physics_process)
 	var attack_state = LimboState.new().named("attack").call_on_enter(_attack_ready).call_on_update(_attack_physics_process)
-
+	var jump_state = LimboState.new().named("jump").call_on_enter(_jump_ready).call_on_update(_jump_physics_process)
+	var fall_state = LimboState.new().named("fall").call_on_enter(_fall_ready).call_on_update(_fall_physics_process)
+	
 	hsm.add_child(idle_state)
 	hsm.add_child(move_state)
 	hsm.add_child(attack_state)
-	
+	hsm.add_child(jump_state)
+	hsm.add_child(fall_state)
 	
 	hsm.add_transition(idle_state, move_state, &"move_started")
 	hsm.add_transition(move_state, idle_state, &"move_ended")
 	hsm.add_transition(hsm.ANYSTATE, idle_state, &"state_ended")
 	hsm.add_transition(hsm.ANYSTATE, attack_state, &"attack_started")
+	hsm.add_transition(hsm.ANYSTATE, jump_state, &"jump_started")
+	hsm.add_transition(jump_state, fall_state, &"jump_ended")
 	
 	hsm.initial_state = idle_state
 	hsm.initialize(self)
@@ -91,3 +108,5 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("attack") :
 		atacando = true
 		hsm.dispatch(&"attack_started")
+	if event.is_action_pressed("ui_accept") and is_on_floor():
+		hsm.dispatch(&"jump_started")
