@@ -149,7 +149,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 6.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -270,8 +270,9 @@ script = ExtResource("1_t0rrx")
 
 [node name="animation" type="AnimatedSprite2D" parent="." groups=["scene_manager_entity_nodes"]]
 sprite_frames = SubResource("SpriteFrames_uu3ma")
-animation = &"dash"
-frame_progress = 0.551212
+animation = &"attack"
+frame = 3
+frame_progress = 1.0
 metadata/entity_name = "A"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -286,7 +287,11 @@ shape = SubResource("RectangleShape2D_0btah")
 debug_color = Color(0.747915, 0.408091, 0.571588, 0.42)
 
 [node name="dash_cooldown" type="Timer" parent="."]
-wait_time = 1.5
+one_shot = true
+
+[node name="attack_cooldown" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
 [connection signal="timeout" from="dash_cooldown" to="." method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]

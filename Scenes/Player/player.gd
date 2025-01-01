@@ -11,6 +11,7 @@ var hsm: LimboHSM
 var is_jumping = false
 var is_dashing = false
 var is_attacking = false
+var attack_possible = true
 var dash_possible = true
 var facing_right = true
 #func ready
@@ -40,10 +41,12 @@ func _dash_ready():
 #-----------------------------------
 #funcoes para a state machine
 func _idle_physics_process(delta: float) :
+	is_attacking = false
 	if velocity != Vector2.ZERO:
 		hsm.dispatch(&"move_started")
 
 func _move_physics_process(delta: float) :
+	is_attacking = false
 	move_and_slide()
 	if velocity == Vector2.ZERO :
 		hsm.dispatch(&"move_ended")
@@ -65,6 +68,7 @@ func _fall_physics_process(delta: float):
 	move_and_slide()
 	if is_on_floor() :
 		is_jumping = false
+		is_attacking = false
 		hsm.dispatch(&"state_ended")
 
 func _dash_physics_process(delta: float):
@@ -84,25 +88,27 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_jumping:
 		hsm.dispatch(&"fall_started")
 		
-	if is_on_floor() and not is_attacking:
+	if is_on_floor() :
 		is_jumping = false
 	
 	var direction := Input.get_axis("ui_left", "ui_right")
+	
 	if is_dashing:
 		if anim.scale.x == 1 :
 			move_local_x(10)
 		if anim.scale.x == -1 :
-			facing_right
 			move_local_x(-10)
+
 	if direction:
 		anim.scale.x = direction
 		velocity.x = direction * speed
-		
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 	
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") and attack_possible:
+		$attack_cooldown.start()
 		is_attacking = true
+		attack_possible = false
 		hsm.dispatch(&"attack_started")
 
 	if Input.is_action_just_pressed("ui_accept") and not is_jumping and not is_attacking:
@@ -149,3 +155,6 @@ func _init_state_machine():
 
 func _on_dash_cooldown_timeout() -> void:
 	dash_possible = true
+
+func _on_attack_cooldown_timeout() -> void:
+	attack_possible = true
