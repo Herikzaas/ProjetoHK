@@ -3,7 +3,7 @@ extends CharacterBody2D
 @onready var anim = $animation as AnimatedSprite2D
 
 var speed = 300.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -500.0
 const dash_speed = 900.0
 
 var hsm: LimboHSM
@@ -80,6 +80,8 @@ func _fall_physics_process(delta: float):
 		hsm.dispatch(&"state_ended")
 
 func _dash_physics_process(delta: float):
+	is_attacking = false
+	_collision_sword()
 	move_and_slide()
 	await get_tree().create_timer(.3).timeout
 	is_dashing = false
@@ -100,7 +102,7 @@ func _physics_process(delta: float) -> void:
 		is_jumping = false
 	
 	var direction := Input.get_axis("ui_left", "ui_right")
-	$sword_area/sword_collision.position.x = direction * 34
+	
 	$player_collision.position.x = direction * -4
 	if is_dashing:
 		if anim.scale.x == 1 :
@@ -115,6 +117,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, speed)
 	
 	if Input.is_action_just_pressed("attack") and attack_possible:
+		$sword_area/sword_collision.position.x = anim.scale.x * 34
 		$attack_cooldown.start()
 		is_attacking = true
 		attack_possible = false

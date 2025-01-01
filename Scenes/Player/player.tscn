@@ -160,7 +160,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"dash",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -270,7 +270,7 @@ script = ExtResource("1_t0rrx")
 
 [node name="animation" type="AnimatedSprite2D" parent="." groups=["scene_manager_entity_nodes"]]
 sprite_frames = SubResource("SpriteFrames_uu3ma")
-animation = &"idle"
+animation = &"dash"
 metadata/entity_name = "A"
 
 [node name="player_collision" type="CollisionShape2D" parent="."]
