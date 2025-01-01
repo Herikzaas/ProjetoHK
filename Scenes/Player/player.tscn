@@ -270,18 +270,16 @@ script = ExtResource("1_t0rrx")
 
 [node name="animation" type="AnimatedSprite2D" parent="." groups=["scene_manager_entity_nodes"]]
 sprite_frames = SubResource("SpriteFrames_uu3ma")
-animation = &"attack"
-frame = 3
-frame_progress = 1.0
+animation = &"idle"
 metadata/entity_name = "A"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="player_collision" type="CollisionShape2D" parent="."]
 position = Vector2(-4, 23)
 shape = SubResource("CapsuleShape2D_gcdah")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="sword_area" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="sword_collision" type="CollisionShape2D" parent="sword_area"]
 position = Vector2(34.25, 20)
 shape = SubResource("RectangleShape2D_0btah")
 debug_color = Color(0.747915, 0.408091, 0.571588, 0.42)

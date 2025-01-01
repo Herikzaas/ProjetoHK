@@ -27,6 +27,7 @@ func _move_ready():
 	anim.play("move")
 
 func _attack_ready():
+
 	anim.play("attack")
 
 func _jump_ready():
@@ -41,12 +42,15 @@ func _dash_ready():
 #-----------------------------------
 #funcoes para a state machine
 func _idle_physics_process(delta: float) :
+	$player_collision.position.x = -4 * anim.scale.x
 	is_attacking = false
+	_collision_sword()
 	if velocity != Vector2.ZERO:
 		hsm.dispatch(&"move_started")
 
 func _move_physics_process(delta: float) :
 	is_attacking = false
+	_collision_sword()
 	move_and_slide()
 	if velocity == Vector2.ZERO :
 		hsm.dispatch(&"move_ended")
@@ -54,9 +58,12 @@ func _move_physics_process(delta: float) :
 		hsm.dispatch(&"fall_started")
 
 func _attack_physics_process(delta: float):
+	$sword_area.monitoring = true
+	$sword_area.visible = true
 	move_and_slide()
 	if anim.frame == 3:
 		is_attacking = false
+		_collision_sword()
 		hsm.dispatch(&"state_ended")
 	
 func _jump_physics_process(delta: float):
@@ -69,6 +76,7 @@ func _fall_physics_process(delta: float):
 	if is_on_floor() :
 		is_jumping = false
 		is_attacking = false
+		_collision_sword()
 		hsm.dispatch(&"state_ended")
 
 func _dash_physics_process(delta: float):
@@ -92,7 +100,8 @@ func _physics_process(delta: float) -> void:
 		is_jumping = false
 	
 	var direction := Input.get_axis("ui_left", "ui_right")
-	
+	$sword_area/sword_collision.position.x = direction * 34
+	$player_collision.position.x = direction * -4
 	if is_dashing:
 		if anim.scale.x == 1 :
 			move_local_x(10)
@@ -158,3 +167,8 @@ func _on_dash_cooldown_timeout() -> void:
 
 func _on_attack_cooldown_timeout() -> void:
 	attack_possible = true
+
+func _collision_sword():
+	$sword_area.monitorable = false
+	$sword_area.monitoring = false
+	$sword_area.visible = false
