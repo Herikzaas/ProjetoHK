@@ -1,8 +1,9 @@
-[gd_scene load_steps=39 format=3 uid="uid://dar8h4rmwlltd"]
+[gd_scene load_steps=42 format=3 uid="uid://dar8h4rmwlltd"]
 
 [ext_resource type="Texture2D" uid="uid://dgacj0uqee6ks" path="res://Assets/Player/Knight/_Attack.png" id="1_nejds"]
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_t0rrx"]
 [ext_resource type="Texture2D" uid="uid://bokisjp683rh0" path="res://Assets/Player/Knight/_Idle.png" id="2_fusqg"]
+[ext_resource type="Texture2D" uid="uid://cmd06kg1disq1" path="res://Assets/Player/Knight/_Dash.png" id="3_4q51t"]
 [ext_resource type="Texture2D" uid="uid://cmv5crt36pk20" path="res://Assets/Player/Knight/_JumpFallInbetween.png" id="3_mkaw8"]
 [ext_resource type="Texture2D" uid="uid://dxygekxkpodh7" path="res://Assets/Player/Knight/_Run.png" id="3_vblo6"]
 [ext_resource type="Texture2D" uid="uid://d0be3sn8qtw0v" path="res://Assets/Player/Knight/_Jump.png" id="5_8l5wq"]
@@ -22,6 +23,14 @@ region = Rect2(240, 0, 120, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ndlg"]
 atlas = ExtResource("1_nejds")
 region = Rect2(360, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_keujs"]
+atlas = ExtResource("3_4q51t")
+region = Rect2(0, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1yvf6"]
+atlas = ExtResource("3_4q51t")
+region = Rect2(120, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rq0gt"]
 atlas = ExtResource("3_mkaw8")
@@ -144,13 +153,24 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_keujs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1yvf6")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_rq0gt")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8o4qq")
 }],
 "loop": false,
-"name": &"fall_jump",
+"name": &"fall",
 "speed": 4.0
 }, {
 "frames": [{
@@ -234,7 +254,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_5fj8c")
 }],
 "loop": true,
-"name": &"run",
+"name": &"move",
 "speed": 15.0
 }]
 
@@ -250,8 +270,8 @@ script = ExtResource("1_t0rrx")
 
 [node name="animation" type="AnimatedSprite2D" parent="." groups=["scene_manager_entity_nodes"]]
 sprite_frames = SubResource("SpriteFrames_uu3ma")
-animation = &"run"
-autoplay = "idle"
+animation = &"dash"
+frame_progress = 0.904644
 metadata/entity_name = "A"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -264,5 +284,3 @@ shape = SubResource("CapsuleShape2D_gcdah")
 position = Vector2(34.25, 20)
 shape = SubResource("RectangleShape2D_0btah")
 debug_color = Color(0.747915, 0.408091, 0.571588, 0.42)
-
-[connection signal="animation_finished" from="animation" to="." method="_on_animation_animation_finished"]

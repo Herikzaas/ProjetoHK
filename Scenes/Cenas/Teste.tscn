@@ -14,6 +14,10 @@ position = Vector2(198, 128)
 position = Vector2(393.75, 156)
 shape = SubResource("RectangleShape2D_1smni")
 
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(562, 480)
+shape = SubResource("RectangleShape2D_1smni")
+
 [node name="Player" parent="." instance=ExtResource("1_6uo1h")]
 position = Vector2(70, 14)
 scale = Vector2(2, 2)
