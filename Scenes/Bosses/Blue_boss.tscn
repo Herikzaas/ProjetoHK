@@ -1,5 +1,6 @@
-[gd_scene load_steps=49 format=3 uid="uid://ugb837xss8e5"]
+[gd_scene load_steps=51 format=3 uid="uid://ugb837xss8e5"]
 
+[ext_resource type="Script" path="res://Scenes/Bosses/blue_boss.gd" id="1_2wln8"]
 [ext_resource type="Texture2D" uid="uid://b3uccgr0w57r" path="res://Assets/Boss/Blue_Boss/attack1/0.png" id="1_cietk"]
 [ext_resource type="Texture2D" uid="uid://bvlsfs3ocapr6" path="res://Assets/Boss/Blue_Boss/attack1/1.png" id="2_4be5s"]
 [ext_resource type="Texture2D" uid="uid://bkkhul8jpjmm2" path="res://Assets/Boss/Blue_Boss/attack1/2.png" id="3_bkjha"]
@@ -212,7 +213,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Attack/Attack_Collision:disabled")
+tracks/1/path = NodePath("Attack_Collision:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -251,7 +252,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Attack/Attack_Collision:disabled")
+tracks/1/path = NodePath("Attack_Collision:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -317,7 +318,11 @@ height = 118.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sjnub"]
 size = Vector2(249, 45)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_7suof"]
+radius = 426.095
+
 [node name="Blue_Boss" type="CharacterBody2D"]
+script = ExtResource("1_2wln8")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2b1gh")
@@ -334,7 +339,13 @@ shape = SubResource("CapsuleShape2D_lm7j5")
 
 [node name="Attack" type="Node" parent="."]
 
-[node name="Attack_Collision" type="CollisionShape2D" parent="Attack"]
+[node name="Attack_Collision" type="CollisionShape2D" parent="."]
 position = Vector2(-2.5, 97)
 shape = SubResource("RectangleShape2D_sjnub")
 disabled = true
+
+[node name="Detect_Player" type="Node" parent="."]
+
+[node name="Detect_Collision" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_7suof")

@@ -19,6 +19,12 @@ config/icon="res://icon.svg"
 
 Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 
+[display]
+
+window/size/viewport_width=840
+window/size/viewport_height=640
+window/size/initial_position_type=0
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/goutte.animated_shape_2d/plugin.cfg")
