@@ -21,9 +21,10 @@ Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 
 [display]
 
-window/size/viewport_width=840
-window/size/viewport_height=640
-window/size/initial_position_type=0
+window/size/viewport_width=830
+window/size/viewport_height=440
+window/size/mode=1
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
